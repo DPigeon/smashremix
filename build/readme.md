@@ -1,4 +1,9 @@
-The 3 .exe files here are from:
+# Info
+
+3 .exe files are required to inject files into SSB.
 https://github.com/jombo23/N64-Tools/tree/master/SSBFileInjector/Release
 They should be updated when necessary.
-Ideally, we'd pull these in via a build step, but not there yet.
+
+# Procedure
+
+Run `./pull_ssb_file_injector.sh` to download the SSBFileInjector files.

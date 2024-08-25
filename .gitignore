@@ -8,8 +8,11 @@
 # Dev Info
 *.log
 *.sym
+crc
 
 # Build
+build/*.exe
+build/rn64crc.txt
 build/original/*.bin
 build/original/*.vpk
 build/original/*.txt

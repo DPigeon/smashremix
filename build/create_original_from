@@ -1,0 +1,63 @@
+#!/bin/bash
+
+help () {
+    echo "
+    -i|--incremental: Used to track incremental.csv changes from GE Editor using an already built 'roms/original.z64' file.
+    -m|--master: Used to track master.csv changes when you are ready to commit a new original.xdelta to master using a legally ROM file.
+
+    Usage with incremental: $0 -i
+    Usage with master: $0 -m
+    "
+    exit 1
+}
+
+DIR=$(dirname $0)
+ROM_DIR=$DIR/../roms
+LIB_DIR=$DIR/SSBFileInjector
+
+while (( "$#" )); do
+    key=$1
+    case "$key" in
+        -i|--incremental)
+            if [ -z "$INPUT_ROM_DIR" ]; then
+                CSV_FILE_DIR=$DIR/incremental.csv
+                INPUT_ROM_DIR="$ROM_DIR/original.z64"
+            fi
+        ;;
+        -m|--master)
+            if [ -z "$INPUT_ROM_DIR" ]; then
+                CSV_FILE_DIR=$DIR/master.csv
+                INPUT_ROM_DIR="$ROM_DIR/Super Smash Bros. (U) [!].z64"
+            fi
+        ;;
+        -h|--help)
+            help
+        ;;
+        *)
+            echo "
+            Unknown argument $key.
+            "
+            exit 1
+        ;;
+    esac
+    shift
+done
+
+verify_library () {
+    if [ ! -f "$LIB_DIR" ]; then
+        $DIR/pull_ssb_file_injector
+    fi
+}
+
+verify_and_inject_csv_file () {
+    if [ ! -f "$CSV_FILE_DIR" ] || [ ! -f "$INPUT_ROM_DIR" ]; then
+        help
+    fi
+    $LIB_DIR \
+        csv="$1" \
+        inputROM="$2" \
+        outputROM="$DIR/original.z64"
+}
+
+verify_library
+verify_and_inject_csv_file "$CSV_FILE_DIR" "$INPUT_ROM_DIR"
