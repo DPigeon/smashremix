@@ -1,17 +1,12 @@
 name: release
 
 on:
-  push:
-    branches:
-      - improve-process
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       version:
-#         description: "Version of the new Smash Remix release e.g '1.5.2'."
-#         required: true
-#         type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version of the new Smash Remix release e.g 1.5.2"
+        required: true
+        type: string
 
 jobs:
   release:
@@ -23,12 +18,12 @@ jobs:
           fetch-depth: 0
 
       - name: Build
-        run: cd release && ./generate.sh "1.5.2"
+        run: cd release && ./generate.sh "${{ inputs.version }}"
 
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "release/smashremix1.5.2.zip"
+          artifacts: "release/smashremix${{ inputs.version }}.zip"
           bodyFile: release/body.md
-          name: "Smash Remix 1.5.2"
-          tag: 1.5.2
+          name: "Smash Remix ${{ inputs.version }}"
+          tag: ${{ inputs.version }}
