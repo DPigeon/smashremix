@@ -32,9 +32,8 @@ done
 cd ../
 mv ../original.xdelta $FILES_DIR/patches/${SR_NAME}${VERSION}.xdelta
 
-echo "Zipping the Release file..."
+echo "Preparing release file $SR_NAME$VERSION.zip..."
 zip -q -r ${SR_NAME}${VERSION}.zip $FILES_DIR/
-
 unzip -l ${SR_NAME}${VERSION}.zip # View content without extracting
 
 rm -rf $EZPATCH_DIR

@@ -1,17 +1,12 @@
 name: release
 
 on:
-  push:
-    branches:
-      - improve-process
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       version:
-#         description: "Version of the new Smash Remix release e.g '1.5.2'."
-#         required: true
-#         type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version of the new Smash Remix release e.g '1.5.2'."
+        required: true
+        type: string
 
 jobs:
   release:
@@ -23,6 +18,4 @@ jobs:
           fetch-depth: 0
 
       - name: Release
-        run: |
-          cd release
-          ./generate.sh "1.5.2"
+        run: cd release && ./generate.sh "${{ inputs.version }}"

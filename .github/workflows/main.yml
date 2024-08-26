@@ -1,0 +1,14 @@
+name: build
+
+on:
+  push:
+    branches:
+      - improve-process
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest # windows-latest?
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
