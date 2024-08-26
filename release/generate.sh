@@ -20,6 +20,11 @@ for f in "${README_FILES[@]}"; do
     sed -i "s/{VERSION}/$VERSION/g" $FILES_DIR/$f.txt
 done
 
+echo "Constructing body release..."
+sed -i '1s/^/\n/' $FILES_DIR/"$VERSION Patch Notes.txt"
+cat $FILES_DIR/"$VERSION Patch Notes".txt >> body.md
+
+echo "Pulling xdelta files..."
 mv ../xdelta.exe $FILES_DIR/ && mv ../xdeltaUI.exe $FILES_DIR/
 
 echo "Building EzPatch..."
