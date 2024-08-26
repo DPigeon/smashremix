@@ -13,6 +13,7 @@ EZPATCH_DIR=ezpatch
 EZPATCH_FILE=easy-patch-template.zip
 EZPATCH_CONTENT=( .ezpatch/ osx-drag-here.app/ output/ patches/ linux-drag-here.desktop windows-drag-here.bat )
 
+echo "Setting version $VERSION in release files..."
 sed -i "s/{VERSION}/$VERSION/g" $FILES_DIR/"Patch Notes.txt"
 mv $FILES_DIR/"Patch Notes.txt" $FILES_DIR/"$VERSION Patch Notes.txt"
 for f in "${README_FILES[@]}"; do
@@ -21,6 +22,7 @@ done
 
 mv ../xdelta.exe $FILES_DIR/ && mv ../xdeltaUI.exe $FILES_DIR/
 
+echo "Building EzPatch..."
 mkdir $EZPATCH_DIR
 curl -sS -L https://github.com/CEnnis91/easy-patch/releases/download/v$EZPATCH_VERSION/$EZPATCH_FILE > $EZPATCH_DIR/$EZPATCH_FILE
 cd $EZPATCH_DIR && unzip -q $EZPATCH_FILE 
@@ -30,7 +32,8 @@ done
 cd ../
 mv ../original.xdelta $FILES_DIR/patches/${SR_NAME}${VERSION}.xdelta
 
-zip -r ${SR_NAME}${VERSION}.zip $FILES_DIR/
+echo "Zipping the Release file..."
+zip -q -r ${SR_NAME}${VERSION}.zip $FILES_DIR/
 
 unzip -l ${SR_NAME}${VERSION}.zip # View content without extracting
 
