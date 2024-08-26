@@ -16,23 +16,22 @@ EZPATCH_CONTENT=( .ezpatch/ osx-drag-here.app/ output/ patches/ linux-drag-here.
 sed -i "s/{VERSION}/$VERSION/g" $FILES_DIR/"Patch Notes.txt"
 mv $FILES_DIR/"Patch Notes.txt" $FILES_DIR/"$VERSION Patch Notes.txt"
 for f in "${README_FILES[@]}"; do
-    sed -i "s/{VERSION}/$VERSION/g" $FILES_DIR/$f
+    sed -i "s/{VERSION}/$VERSION/g" $FILES_DIR/$f.txt
 done
 
 mv ../xdelta.exe $FILES_DIR/ && mv ../xdeltaUI.exe $FILES_DIR/
 
 mkdir $EZPATCH_DIR
 curl -sS -L https://github.com/CEnnis91/easy-patch/releases/download/v$EZPATCH_VERSION/$EZPATCH_FILE > $EZPATCH_DIR/$EZPATCH_FILE
-cd $EZPATCH_DIR && unzip $EZPATCH_FILE 
+cd $EZPATCH_DIR && unzip -q $EZPATCH_FILE 
 for c in "${EZPATCH_CONTENT[@]}"; do
     mv $c ../$FILES_DIR/
 done
 cd ../
 mv ../original.xdelta $FILES_DIR/patches/${SR_NAME}${VERSION}.xdelta
-cd ../
 
 zip -r ${SR_NAME}${VERSION}.zip $FILES_DIR/
 
-ls -lh
+unzip -l ${SR_NAME}${VERSION}.zip # View content without extracting
 
 rm -rf $EZPATCH_DIR
