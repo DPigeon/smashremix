@@ -28,7 +28,7 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "smashremix1.5.2.zip"
-          bodyFile: body.md
+          artifacts: "release/smashremix1.5.2.zip"
+          bodyFile: release/body.md
           name: "Smash Remix 1.5.2"
           tag: 1.5.2
