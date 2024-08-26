@@ -23,12 +23,12 @@ jobs:
           fetch-depth: 0
 
       - name: Build
-        run: cd release && ./generate.sh "${{ inputs.version }}"
+        run: cd release && ./generate.sh "1.5.2"
 
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "smashremix${{ inputs.version }}.zip"
+          artifacts: "smashremix1.5.2.zip"
           bodyFile: body.md
-          name: "Smash Remix ${{ inputs.version }}"
-          tag: ${{ inputs.version }}
+          name: "Smash Remix 1.5.2"
+          tag: 1.5.2
