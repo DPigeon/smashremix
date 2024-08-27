@@ -46,8 +46,7 @@ ASSEMBLER_DIR=./assembler
 FILE_OUTPUT=ssb64asm.z64
 FILE_CRC=crc
 
-cat "$FILE_Z64" > $FILE_ROM
-mv $FILE_ROM $ROMS_DIR/
+cat "$FILE_Z64" > $ROMS_DIR/$FILE_ROM
 ./xdelta -d -f -s "$ROMS_DIR/$FILE_ROM" original.xdelta $ROMS_DIR/original.z64 # xdelta - apply original.bat
 
 $ASSEMBLER_DIR/bass -o $FILE_OUTPUT main.asm -sym logfile.log # patch.bat
