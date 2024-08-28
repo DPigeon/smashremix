@@ -3,12 +3,12 @@ name: release
 on:
   workflow_dispatch:
     inputs:
-      legallyRomUrl:
-        description: "URL of the legally acquired ROM (.zip)"
-        required: true
-        type: string
       version:
         description: "Version of the new Smash Remix release e.g 1.5.2"
+        required: true
+        type: string
+      hex_crc:
+        description: "Uppercase hexadecimal value of the CRC at 0x10 in plain hexdump style e.g 05BA5CCD-ABB97C1E"
         required: true
         type: string
 
@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build
-        run: cd release && ./generate.sh "${{ inputs.version }}" "${{ inputs.legallyRomUrl }}"
+        run: cd release && ./generate.sh "${{ inputs.version }}" "${{ inputs.hex_crc }}"
 
       - name: Release
         uses: ncipollo/release-action@v1

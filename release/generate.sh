@@ -3,7 +3,7 @@
  # TODO: Get xdelta from https://github.com/jmacd/xdelta-gpl/releases/download/v3.1.0/xdelta3-3.1.0-i686.exe.zip
 
 VERSION=$1
-ROM_URL=$2
+HEX_CRC=$2
 
 SR_NAME=smashremix
 FILES_DIR=files
@@ -13,6 +13,21 @@ EZPATCH_VERSION=1.0.1
 EZPATCH_DIR=ezpatch
 EZPATCH_FILE=easy-patch-template.zip
 EZPATCH_CONTENT=( .ezpatch/ osx-drag-here.app/ output/ patches/ linux-drag-here.desktop windows-drag-here.bat )
+
+SEMVER_REGEX="^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$"
+HEX_REGEX="^[0-9A-F]{8}-[0-9A-F]{8}$"
+
+exit_on_error () {
+    echo "$1"
+    exit 1
+}
+
+if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
+    exit_on_error "Version must follow semantic versioning. Version provided: $VERSION"
+fi
+if [[ ! $HEX_CRC =~ $HEX_REGEX ]]; then
+    exit_on_error "Wrong CRC. It must be an uppercase hexadecimal value in plain hexdump style. Hex provided: $HEX_CRC"
+fi
 
 echo "Setting version $VERSION in release files..."
 sed -i "s/{VERSION}/$VERSION/g" $FILES_DIR/"Patch Notes.txt"
@@ -29,15 +44,9 @@ echo "Pulling xdelta files..."
 mv ../xdelta.exe $FILES_DIR/ && mv ../xdeltaUI.exe $FILES_DIR/
 
 echo "Generating Hex in RDB files..."
-curl -sS -L "$ROM_URL" > r.zip
-unzip -q *.zip 
-rm -rf *.zip
-NAME=$(find . -type f -name "*.z64")
-../build_z64 -f "$NAME"
-HEX=$(xxd -u -p -s 0x10 -l 8 -c 8 ../ssb64asm.z64 | sed -E 's/.{8}/&-/g; s/-$//')
-sed -i "s/{HEX}/$HEX/g" $FILES_DIR/${FILES_WITH_VERSION[4]}
-sed -i "s/{HEX}/$HEX/g" $FILES_DIR/${FILES_WITH_VERSION[5]}
-rm -rf ../*.z64
+for i in {4..5}; do
+    sed -i "s/{HEX}/$HEX_CRC/g" $FILES_DIR/${FILES_WITH_VERSION[$i]}
+done
 
 echo "Building EzPatch..."
 mkdir $EZPATCH_DIR
