@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version of the new Smash Remix release e.g 1.5.2"
+        description: "Version (e.g 1.5.2)"
         required: true
         type: string
       hex_crc:
-        description: "Uppercase hexadecimal value of the CRC at 0x10 in plain hexdump style e.g 05BA5CCD-ABB97C1E"
+        description: "HEX CRC (e.g 05BA5CCD-ABB97C1E)"
         required: true
         type: string
 
