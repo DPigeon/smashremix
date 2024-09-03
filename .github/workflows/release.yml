@@ -16,18 +16,41 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout current repo
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Build
-        run: cd release && ./generate.sh "${{ inputs.version }}" "${{ inputs.hex_crc }}"
+      - name: Checkout public repo
+        uses: actions/checkout@v3
+        with:
+          repository: DPigeon/smashremix-test-public
+          #token: ${{ secrets.SECOND_REPO_TOKEN }}
+          path: public-repo
 
-      - name: Release
+      - name: Find & Apply Changes
+        run: cd release && ./find-and-apply-changes.sh "public-repo"
+
+      - name: Push to Public Repository
+        working-directory: public-repo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Smash Remix ${{ inputs.version }}"
+          git push origin main
+        #env:
+        #  GITHUB_TOKEN: ${{ secrets.SECOND_REPO_TOKEN }}
+
+      - name: Build Release
+        run: cd release && ./build.sh "${{ inputs.version }}" "${{ inputs.hex_crc }}"
+
+      - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "release/smashremix${{ inputs.version }}.zip"
           bodyFile: release/body.md
           name: "Smash Remix ${{ inputs.version }}"
+          owner: DPigeon
+          repo: smashremix-test-public
           tag: ${{ inputs.version }}
