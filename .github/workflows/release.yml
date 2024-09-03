@@ -29,7 +29,7 @@ jobs:
           path: public-repo
 
       - name: Find & Apply Changes
-        run: cd release && ./find-and-apply-changes.sh "public-repo"
+        run: ls && cd release && ./find-and-apply-changes.sh "public-repo"
 
       - name: Push to Public Repository
         working-directory: public-repo
