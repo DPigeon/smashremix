@@ -54,3 +54,4 @@ jobs:
           owner: DPigeon
           repo: smashremix-test-public
           tag: ${{ inputs.version }}
+          token: ${{ secrets.PUBLIC_REPO_TOKEN }}

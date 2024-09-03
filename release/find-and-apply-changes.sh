@@ -41,8 +41,8 @@ rm -rf $CHANGES_FILE $CHANGES_FINAL_FILE
 echo "Updating `${UPDATED_FILES[@]}` in public repo..."
 
 ### DELETE AFTER TEST
-echo 'test file addition' > test1.txt
-echo 'test2' > test2.txt
+echo 'test file addition2' > test1.txt
+echo 'test211' > test2.txt
 cp -pr test1.txt test2.txt $PUBLIC_REPO_PATH/
 rm -rf test1.txt test2.txt
 ### DELETE AFTER TEST
