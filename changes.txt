@@ -1,0 +1,95 @@
+M	.github/workflows/release.yml
+M	release/find-and-apply-changes.sh
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+M	release/find-and-apply-changes.sh
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+R100	release/generate.sh	release/build.sh
+R058	release/find-and-push-changes.sh	release/find-and-apply-changes.sh
+
+A	release/find-and-push-changes.sh
+
+M	release/generate.sh
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+M	release/generate.sh
+
+M	.github/workflows/release.yml
+M	build_z64
+M	release/files/pj64.rdb
+M	release/files/project64.rdb
+M	release/generate.sh
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+
+M	.github/workflows/release.yml
+A	release/body.md
+M	release/files/Patch Notes.txt
+M	release/generate.sh
+
+D	.github/workflows/main.yml
+
+A	.github/workflows/main.yml
+M	.github/workflows/release.yml
+M	release/generate.sh
+
+M	release/generate.sh
+
+M	release/generate.sh
+
+M	release/generate.sh
+
+M	.github/workflows/release.yml
+
+A	.github/workflows/release.yml
+A	release/files/LISEZ-MOI.txt
+A	"release/files/L\303\211AME.txt"
+A	release/files/Patch Notes.txt
+A	release/files/README.txt
+A	"release/files/README_\346\227\245\346\234\254\350\252\236.txt"
+A	release/files/credits.txt
+A	release/files/pj64.rdb
+A	release/files/project64.rdb
+A	release/generate.sh
+
+M	.gitignore
+D	build/SSBFileInjector.exe
+A	build/create_original_from
+D	build/create_original_from_incremental.bat
+D	build/create_original_from_master.bat
+D	build/nvpktool.exe
+M	build/original/readme.md
+A	build/pull_ssb_file_injector
+M	build/readme.md
+D	build/rn64crc.exe
+D	build/rn64crc.txt
+D	build/utils/CharacterIconAppender.bat
+A	build/utils/CharacterIconAppender.sh
+A	build/utils/DataAppender
+M	build/utils/README.md
+D	build/utils/StageIconAppender.bat
+A	build/utils/StageIconAppender.sh
+A	build_z64
+D	patch.bat
+D	xdelta - apply original.bat
