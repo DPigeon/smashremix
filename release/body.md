@@ -10,5 +10,5 @@ If that causes issues, follow the instructions below:
 
 Special note for OSX users:
 
-- Apple has stronger restrictions on running unsigned apps from the Internet. You must perform an extra step before you can drag your ROM onto osx-drag-here. You can see more information here. I recommend the following
+- Apple has stronger restrictions on running unsigned apps from the Internet. You must perform an extra step before you can drag your ROM onto osx-drag-here. You can see more information here. I recommend the following:
   ![Image1](https://user-images.githubusercontent.com/50251105/67646585-d88bd300-f8fc-11e9-9222-a2eb8d79c471.png)
