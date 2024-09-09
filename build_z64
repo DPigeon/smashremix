@@ -45,6 +45,7 @@ FILE_ROM=ssb.rom
 ASSEMBLER_DIR=./assembler
 FILE_OUTPUT=ssb64asm.z64
 FILE_CRC=crc
+MAX_FILE_SIZE_KB=64000
 
 cat "$FILE_Z64" > $ROMS_DIR/$FILE_ROM
 ./xdelta -d -f -s "$ROMS_DIR/$FILE_ROM" original.xdelta $ROMS_DIR/original.z64 # xdelta - apply original.bat
@@ -55,4 +56,13 @@ $ASSEMBLER_DIR/rn64crc -u > $FILE_CRC
 
 if [ -z "$CRC" ]; then
     rm -rf $FILE_CRC
+fi
+
+FILE_SIZE=$(du --apparent-size $FILE_OUTPUT | awk '{print $1}')
+
+if [ $FILE_SIZE -gt $MAX_FILE_SIZE_KB ]; then
+    echo -e "\e[31mFinal ROM size '$FILE_OUTPUT' ($FILE_SIZE KB) is greater than the maximum allowed $MAX_FILE_SIZE_KB KB (64 MB)!\e[0m"
+    exit 1
+else
+    echo -e "\e[32mFinal ROM size '$FILE_OUTPUT' is $FILE_SIZE KB.\e[0m"
 fi
