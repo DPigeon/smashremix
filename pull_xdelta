@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# xdelta from https://github.com/jmacd/xdelta-gpl/releases/
+# https://www.gamebrew.org/wiki/Xdelta
+# https://www.gamebrew.org/wiki/Xdelta_UI
+
+XDELTA=xdelta
+VERSION=3.1.0
+
+pull_xdelta_tool () {
+    if [ ! -f "$XDELTA.exe" ]; then
+        XDELTA_URL=https://github.com/jmacd/xdelta-gpl/releases/download/v$VERSION
+        SUPPORTED_ARCHS=( "x86_64" "i686" )
+        ARCH=$(uname -m)
+
+        if [[ "${SUPPORTED_ARCHS[@]}" =~ "${ARCH}" ]]; then
+            FILE=${XDELTA}3-$VERSION-$ARCH.exe
+            echo "Downloading $XDELTA for $ARCH architecture..."
+            curl -sS -L $XDELTA_URL/$FILE.zip > $FILE.zip
+        else
+            echo "$ARCH is not supported to execute $XDELTA! Supported archs are ${SUPPORTED_ARCHS[@]}."
+            exit 1
+        fi
+        unzip -q $FILE.zip
+        rm -rf $FILE.zip
+        mv $FILE $XDELTA.exe
+    else
+        echo "$XDELTA.exe is already pulled!"
+    fi
+}
+
+pull_xdeltaUI_tool () {
+    FILE=xdeltaui.rar
+    DIR=ui
+    if [ ! -f "${XDELTA}UI.exe" ]; then
+        mkdir ui
+        echo "Downloading ${XDELTA}UI..."
+        curl -sS -L https://dlhb.gamebrew.org/dshomebrew2/$FILE > $FILE
+        unrar x -inul $FILE ./ui # TODO: user may not have unrar. Pull it on demand
+        if [ ! -f "./ui/$FILE" ]; then
+            rm -rf ui/$FILE ui/$XDELTA.exe ui/readme.txt
+            mv ui/${XDELTA}UI.exe ${XDELTA}UI.exe
+        fi
+        rm -rf ui/
+    else
+        echo "${XDELTA}UI.exe is already pulled!"
+    fi
+}
+
+pull_xdelta_tool
+#pull_xdeltaUI_tool

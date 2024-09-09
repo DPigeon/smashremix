@@ -16,6 +16,8 @@ build/rn64crc.txt
 build/original/*.bin
 build/original/*.vpk
 build/original/*.txt
+xdelta.exe
+xdeltaUI.exe
 
 # /roms
 /roms/*

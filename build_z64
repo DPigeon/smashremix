@@ -47,6 +47,8 @@ FILE_OUTPUT=ssb64asm.z64
 FILE_CRC=crc
 MAX_FILE_SIZE_KB=64000
 
+./pull_xdelta
+
 cat "$FILE_Z64" > $ROMS_DIR/$FILE_ROM
 ./xdelta -d -f -s "$ROMS_DIR/$FILE_ROM" original.xdelta $ROMS_DIR/original.z64 # xdelta - apply original.bat
 
