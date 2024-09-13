@@ -1,0 +1,70 @@
+#!/bin/bash
+
+help () {
+    echo "
+    Use this script to build a Smash Remix Z64 file. Arguments:
+    -f|--file: Legally Super Smash Bros ROM file.
+    -c|--crc: Enable generation of CRC file.
+
+    Usage with no CRC file: $0 -f '<ROM_FILE>'
+    Usage with CRC file: $0 -f '<ROM_FILE>' -c
+    "
+    exit 1
+}
+
+while (( "$#" )); do
+    key=$1
+    case "$key" in
+        -f|--file)
+            shift
+            FILE_Z64="$1"
+        ;;
+        -c|--crc)
+            CRC="true"
+        ;;
+        -h|--help)
+            help
+        ;;
+        *)
+            echo "
+            Unknown argument $key.
+            "
+            exit 1
+        ;;
+    esac
+    shift
+done
+
+if [ -z "$FILE_Z64" ] || [ ! -f "$FILE_Z64" ]; then 
+    echo "Incorrect Super Smash Bros file. File provided: '$FILE_Z64'." 
+    help
+fi
+
+ROMS_DIR=roms
+FILE_ROM=ssb.rom
+ASSEMBLER_DIR=./assembler
+FILE_OUTPUT=ssb64asm.z64
+FILE_CRC=crc
+MAX_FILE_SIZE_KB=64000
+
+./pull_xdelta
+
+cat "$FILE_Z64" > $ROMS_DIR/$FILE_ROM
+./xdelta -d -f -s "$ROMS_DIR/$FILE_ROM" original.xdelta $ROMS_DIR/original.z64 # xdelta - apply original.bat
+
+$ASSEMBLER_DIR/bass -o $FILE_OUTPUT main.asm -sym logfile.log # patch.bat
+$ASSEMBLER_DIR/chksum64 $FILE_OUTPUT > $FILE_CRC
+$ASSEMBLER_DIR/rn64crc -u > $FILE_CRC
+
+if [ -z "$CRC" ]; then
+    rm -rf $FILE_CRC
+fi
+
+FILE_SIZE=$(du --apparent-size $FILE_OUTPUT | awk '{print $1}')
+
+if [ $FILE_SIZE -gt $MAX_FILE_SIZE_KB ]; then
+    echo -e "\e[31mFinal ROM size '$FILE_OUTPUT' ($FILE_SIZE KB) is greater than the maximum allowed $MAX_FILE_SIZE_KB KB (64 MB)!\e[0m"
+    exit 1
+else
+    echo -e "\e[32mFinal ROM size '$FILE_OUTPUT' is $FILE_SIZE KB.\e[0m"
+fi

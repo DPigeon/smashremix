@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DIR=$(dirname $0)
+URL=https://raw.githubusercontent.com/jombo23/N64-Tools/master/SSBFileInjector/Release
+FILES=(SSBFileInjector.exe nvpktool.exe rn64crc.exe rn64crc.txt)
+
+get_file () {
+    curl -sS -L $URL/$1 > $DIR/$1
+    echo "Pulled $DIR/$1..."
+}
+
+for f in ${FILES[@]}; do
+    get_file $f
+done
