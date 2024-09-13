@@ -33,19 +33,26 @@ pull_xdeltaUI_tool () {
     FILE=xdeltaui.rar
     DIR=ui
     if [ ! -f "${XDELTA}UI.exe" ]; then
-        mkdir ui
         echo "Downloading ${XDELTA}UI..."
         curl -sS -L https://dlhb.gamebrew.org/dshomebrew2/$FILE > $FILE
-        unrar x -inul $FILE ./ui # TODO: user may not have unrar. Pull it on demand
-        if [ ! -f "./ui/$FILE" ]; then
-            rm -rf ui/$FILE ui/$XDELTA.exe ui/readme.txt
-            mv ui/${XDELTA}UI.exe ${XDELTA}UI.exe
+        if command -v unrar >/dev/null 2>&1; then
+            mkdir ui
+            unrar x -inul $FILE ./ui
+            if [ ! -f "./ui/$FILE" ]; then
+                rm -rf ui/$FILE ui/$XDELTA.exe ui/readme.txt
+                mv ui/${XDELTA}UI.exe ${XDELTA}UI.exe
+            fi
+            rm -rf ui/
+        else
+            echo -e "\nunrar is not installed to extract ${XDELTA}UI.exe!"
+            echo "1. Go to https://www.rarlab.com/rar_add.htm and install the right unrar dependency for your system."
+            echo -e "2. Add unrar to your system's PATH.\n"
+            echo "If you prefer to do it manually, click on downloaded $FILE file and extract ${XDELTA}UI.exe."
         fi
-        rm -rf ui/
     else
         echo "${XDELTA}UI.exe is already pulled!"
     fi
 }
 
 pull_xdelta_tool
-#pull_xdeltaUI_tool
+pull_xdeltaUI_tool

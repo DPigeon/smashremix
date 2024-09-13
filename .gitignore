@@ -18,6 +18,7 @@ build/original/*.vpk
 build/original/*.txt
 xdelta.exe
 xdeltaUI.exe
+xdeltaui.rar
 
 # /roms
 /roms/*
